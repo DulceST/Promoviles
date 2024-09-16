@@ -140,7 +140,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         'Family',
         'assets/FondoPingui.jpg',
         'assets/pinguino.png',
-        'Recién llegados a la Aldea Sylvanian han cautivado el corazón de los vecinos con su amabilidad y, por supuesto, con muchos helados.',
+        'Recién llegados a la Aldea Sylvanian han cautivado el corazón de los vecinos con su amabilidad.',
         blueDark,
         blueLight));
     return list;
