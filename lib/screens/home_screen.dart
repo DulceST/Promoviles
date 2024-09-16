@@ -35,9 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) {
           switch (index) {
             case 1:
-              return const ProfileScreen();
+              return const ProfileScreen();//Opcion del centro
             default:
-              return const ProfileScreen();
+              return const Home();//Primera opcion
           }
         },
       ),

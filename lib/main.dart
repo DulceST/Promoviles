@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pms2024/screens/home_screen.dart';
+import 'package:pms2024/screens/profile_screen.dart';
 import 'package:pms2024/screens_P1/home.dart';
 import 'package:pms2024/screens/login_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           routes: {
             "/home": (context)  =>  HomeScreen(), //correspondencia etiqeuta valor dode etiqueta es string 
             "/homeP1": (context) => Home(),
+            "/profile": (context) => ProfileScreen(),
           },
         );
       }
