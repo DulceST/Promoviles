@@ -43,11 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius:
                 BorderRadius.circular(20) //para rendondear las esquinas
             ),
-        child: ListView(
-          shrinkWrap: true,
+        padding: EdgeInsets.all(20),
+        child: Column(
           children: [
             txtUser,
-            txtPwd
+            const SizedBox(height: 10), // Espacio entre los campos
+            txtPwd,
           ], //indica que van a estar contenidos varios elementos
         ),
       ),
@@ -59,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
       bottom: 40,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber[2]), //color del boton
+              backgroundColor:
+                  const Color.fromARGB(252, 249, 245, 249)), //color del boton
           onPressed: () {
             isLoading = true;
             setState(() {});
@@ -75,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //Fin del boton de validacion
 
     final gifLoading = Positioned(
-        top: 200,
+        top: 300,
         child: Image.asset(
           'assets/loading.gif',
           height: 90,
@@ -93,9 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.center,
           children: [
             Positioned(
-                top: 10,
-                child: Image.asset('assets/logoTer.png',width: 200,)
-                ),
+                top: 60,
+                child: Image.asset(
+                  'assets/logoTer.png',
+                  width: 200,
+                )),
             ctnCredentials,
             btnLogin,
             isLoading ? gifLoading : Container() //operado terneario
