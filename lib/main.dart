@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
 //import 'package:pms2024/screens_P1/home.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
             routes: {
               "/home": (context) => const HomeScreen(),
               "/profile": (context) => const ProfileScreen(),
+              "/homeContent": (context) => const HomeContentScreen()
             },
           );
         });

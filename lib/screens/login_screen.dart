@@ -75,8 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     final gifLoading = Positioned(
-      top: 5,
-      child: Image.asset('assets/loading.gif', height: 200,)
+      top: 250,
+      child: Image.asset('assets/loading.gif', height: 80,)
     );
 
     return Scaffold(
