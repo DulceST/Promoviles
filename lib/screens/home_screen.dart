@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
-import 'package:pms2024/setting/colors_settings.dart';
 import 'package:pms2024/setting/global_values.dart';
+import 'package:pms2024/setting/theme_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorsSettings.navColor,
+        //backgroundColor: ColorsSettings.navColor,
         actions: [
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.access_alarm_outlined)),
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {},
               child: MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Image.asset('assets/icono_comida.png')))
+                  child: Image.asset('assets/icono_comida.png', height: 30)))
         ],
       ),
       body: Builder(
@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //endDrawer: Drawer(),
       drawer: myDrawer(),
       bottomNavigationBar: ConvexAppBar(
+      backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,  //Usa el color definido en el theme_settings 
         items: const [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.person, title: 'Profile'),
@@ -61,15 +62,22 @@ class _HomeScreenState extends State<HomeScreen> {
         FloatingActionButton.small(
             heroTag: "btn1",
             onPressed: () {
-              GlobalValues.banThemeDark.value = false;
+              GlobalValues.selectedTheme.value = ThemeSettings.lightTheme();
             },
             child: const Icon(Icons.light_mode)),
         FloatingActionButton.small(
             heroTag: "btn2",
             onPressed: () {
-              GlobalValues.banThemeDark.value = true;
+              GlobalValues.selectedTheme.value = ThemeSettings.darkTheme();
             },
-            child: const Icon(Icons.dark_mode))
+            child: const Icon(Icons.dark_mode)),
+        FloatingActionButton.small(
+            heroTag: "btn3",
+            onPressed: () {
+              GlobalValues.selectedTheme.value = ThemeSettings.sunnyTheme();
+              
+            },
+            child: const Icon(Icons.sunny_snowing))
       ]),
     );
   }
