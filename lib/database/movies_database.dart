@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:pms2024/models/moviesdao.dart';
+import 'package:pms2024/models/moviesDAO.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class MoviesDatabase {
-  static final NAMEDB = 'MOVIESDB';
-  static final VERSIONDB = 1;
+  static const NAMEDB = 'MOVIESDB';
+  static const VERSIONDB = 1;
 
   static Database? _database;
   Future<Database> get database async {
@@ -22,12 +22,14 @@ class MoviesDatabase {
     return openDatabase(path, version: VERSIONDB, onCreate: (db, version) {
       //PARA CUANDO SEA LA PRIMERA VEZ QUE SE INSTALA LA APP EJECUTE ESTE METODO
       //DENTRO ESTE METODO PODEMOS EJECUTAR LOS QUERYS QUE QUERAMOS
-      String query = '''
+      String query1 = '''
           CREATE TABLE tblgenre(
             idGenre char(1) PRIMARY KEY,
             dscgenre VARCHAR(50)
-          );
+          );''';
 
+          db.execute(query1);
+      String query2 = '''
           CREATE TABLE tblmovies(
             idmovie INTEGER PRIMARY KEY ,
             nameMovie varchar(100),
@@ -37,8 +39,9 @@ class MoviesDatabase {
             releaseDate CHAR(10), 
             constraint fk_genre foreign key(idGenero) references tblgenre(idGenre);
         );''';
-      db.execute(query);
-    });
+      db.execute(query2);
+    },
+    );
   } //initdatabase
 
 //estos seran metodos que se ejecuten en ssegundo plano

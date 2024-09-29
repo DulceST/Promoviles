@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pms2024/screens/home_screen.dart';
-import 'package:pms2024/screens/movies_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
-import 'package:pms2024/screens_P1/home.dart';
+//import 'package:pms2024/screens_P1/home.dart';
 import 'package:pms2024/screens/login_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
 import 'package:pms2024/setting/theme_settings.dart';
@@ -36,9 +35,7 @@ class MyApp extends StatelessWidget {
             //rutas para navegar
             routes: {
               "/home": (context) => const HomeScreen(),
-              "/homeP1": (context) => const Home(),
               "/profile": (context) => const ProfileScreen(),
-              "/db": (context) => const MoviesScreen(),
             },
           );
         });

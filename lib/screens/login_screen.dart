@@ -8,101 +8,97 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   final conUser = TextEditingController();
   final conPwd = TextEditingController();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    //Campo de texto para usuario
+
     TextFormField txtUser = TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: conUser,
-      decoration: const InputDecoration(prefixIcon: Icon(Icons.person)),
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.person)
+      ),
     );
-    //Fin campo de texto de usuario
 
-    //Campo de texto de contraseña
     final txtPwd = TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
       controller: conPwd,
-      decoration: const InputDecoration(prefixIcon: Icon(Icons.password)),
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.password)
+      ),
     );
-    //Fin campo de texto de contraseña
 
-    //el widget lo cabio con control .
     final ctnCredentials = Positioned(
-      //se cambia el widget por positioned y se agrega el width
-      bottom: 100,
+      bottom: 90,
       child: Container(
-        width: MediaQuery.of(context).size.width * .9,
-        //margin: EdgeInsets.symmetric(horizontal: 10),//vcambia en valorres
+        width: MediaQuery.of(context).size.width*.9,
+        //margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            color: const Color.fromARGB(173, 244, 165, 233),
-            borderRadius:
-                BorderRadius.circular(20) //para rendondear las esquinas
-            ),
-        padding: EdgeInsets.all(20),
-        child: Column(
+          color: const Color.fromARGB(255, 247, 247, 243),
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: ListView(
+          shrinkWrap: true,
           children: [
             txtUser,
-            const SizedBox(height: 10), // Espacio entre los campos
-            txtPwd,
-          ], //indica que van a estar contenidos varios elementos
+            txtPwd
+          ],
         ),
       ),
     );
 
-    //Boton de validacion
     final btnLogin = Positioned(
-      width: MediaQuery.of(context).size.width * .9, //estirar el boton
+      width: MediaQuery.of(context).size.width * .9,
       bottom: 40,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  const Color.fromARGB(252, 249, 245, 249)), //color del boton
-          onPressed: () {
-            isLoading = true;
-            setState(() {});
-            Future.delayed(const Duration(milliseconds: 4000)).then((value) => {
-                  isLoading = false,
-                  setState(() {}),
-                  Navigator.pushNamed(
-                      context, "/home") //navegar a la siguiente pantalla
-                });
-          },
-          child: const Text('Validar Usuario')),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 255, 200, 238)
+        ),
+        onPressed: (){
+          isLoading = true;
+          setState(() {});
+          Future.delayed(
+            const Duration(milliseconds: 4000)
+          ).then((value) => {
+            isLoading = false,
+            setState(() {}),
+            Navigator.pushNamed(context, "/home")
+          });
+        }, 
+        child: const Text('Validar Usuario')
+      ),
     );
-    //Fin del boton de validacion
 
     final gifLoading = Positioned(
-        top: 300,
-        child: Image.asset(
-          'assets/loading.gif',
-          height: 90,
-        ));
+      top: 5,
+      child: Image.asset('assets/loading.gif', height: 200,)
+    );
 
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/fondoTernurin.jpeg'))),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('assets/fondo.jpeg')
+          )
+        ),
         child: Stack(
           alignment: Alignment.center,
           children: [
             Positioned(
-                top: 60,
-                child: Image.asset(
-                  'assets/logoTer.png',
-                  width: 200,
-                )),
+              top: 100,
+              child: Image.asset('assets/logo.png', width: 180,)
+            ),
             ctnCredentials,
             btnLogin,
-            isLoading ? gifLoading : Container() //operado terneario
+            isLoading ? gifLoading : Container()
           ],
         ),
       ),
