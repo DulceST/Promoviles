@@ -66,16 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          //Inicio Fondo
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.purpleAccent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        //Fin fondo
-
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,11 +147,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               margin: const EdgeInsets.symmetric(vertical: 10),
               elevation: 5,
               child: ListTile(
-                leading: const Icon(Icons.email, color: Colors.blue),
+                leading: const Icon(Icons.email),
                 title: GestureDetector(
                   onTap: () => _launchURL('mailto:$email'),
                   child:
-                      Text(email, style: const TextStyle(color: Colors.blue)),
+                      Text(email),
                 ),
               ),
             ),
@@ -171,11 +161,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               margin: const EdgeInsets.symmetric(vertical: 10),
               elevation: 5,
               child: ListTile(
-                leading: const Icon(Icons.phone, color: Colors.blue),
+                leading: const Icon(Icons.phone),
                 title: GestureDetector(
                   onTap: () => _launchURL('tel:$phone'),
                   child:
-                      Text(phone, style: const TextStyle(color: Colors.blue)),
+                      Text(phone),
                 ),
               ),
             ),
@@ -184,11 +174,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               margin: const EdgeInsets.symmetric(vertical: 10),
               elevation: 5,
               child: ListTile(
-                leading: const Icon(Icons.code, color: Colors.blue),
+                leading: const Icon(Icons.code),
                 title: GestureDetector(
                   onTap: () => _launchURL(github),
                   child:
-                      Text(github, style: const TextStyle(color: Colors.blue)),
+                      Text(github),
                 ),
               ),
             ),

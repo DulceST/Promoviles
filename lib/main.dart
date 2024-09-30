@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pms2024/screens/customize_theme_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
@@ -25,18 +26,17 @@ class MyApp extends StatelessWidget {
                 false, // Desactiva la etiqueta de depuración que aparece en la esquina superior derecha
             home:
                 const LoginScreen(), //efine el widget que se muestra al iniciar la aplicación, que en este caso es LoginScreen
-
             //Configura el tema de la aplicacion
             theme: value,
-                /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
+            /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
                 : ThemeSettings
                     .lightTheme(),*/ //si es false muestra el tema claro
-
             //rutas para navegar
             routes: {
               "/home": (context) => const HomeScreen(),
               "/profile": (context) => const ProfileScreen(),
-              "/homeContent": (context) => const HomeContentScreen()
+              "/homeContent": (context) => const HomeContentScreen(),
+              "/customize": (context) => const CustomizeThemeScreen()
             },
           );
         });

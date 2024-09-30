@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:pms2024/screens/customize_theme_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
@@ -47,7 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
       //endDrawer: Drawer(),
       drawer: myDrawer(),
       bottomNavigationBar: ConvexAppBar(
-      backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,  //Usa el color definido en el theme_settings 
+        backgroundColor: Theme.of(context)
+            .bottomNavigationBarTheme
+            .backgroundColor, //Usa el color definido en el theme_settings
         items: const [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.person, title: 'Profile'),
@@ -74,10 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
         FloatingActionButton.small(
             heroTag: "btn3",
             onPressed: () {
-              GlobalValues.selectedTheme.value = ThemeSettings.sunnyTheme();
-              
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CustomizeThemeScreen()),
+              );
             },
-            child: const Icon(Icons.sunny_snowing))
+            child: const Icon(Icons.palette))
       ]),
     );
   }
