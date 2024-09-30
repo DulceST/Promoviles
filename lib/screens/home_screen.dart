@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget myDrawer() {
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
           const UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
@@ -112,6 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: const Icon(Icons.pets),
             trailing: const Icon(Icons.chevron_right),
           ),
+          const Spacer(),
+          ListTile(
+            onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+            title: const Text('Cerrar sesion'),
+            leading: const Icon(Icons.exit_to_app),
+          )
         ],
       ),
     );
