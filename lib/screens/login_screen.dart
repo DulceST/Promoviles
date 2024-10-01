@@ -8,94 +8,99 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final conUser = TextEditingController();
   final conPwd = TextEditingController();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    //Obtener tamaño de la pantalla
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     TextFormField txtUser = TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: conUser,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.person)
-      ),
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.person, size: screenWidth * 0.06)),
     );
 
     final txtPwd = TextFormField(
       keyboardType: TextInputType.text,
       obscureText: true,
       controller: conPwd,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.password)
-      ),
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.password, size: screenWidth * 0.06)),
     );
 
     final ctnCredentials = Positioned(
-      bottom: 90,
+      bottom: screenHeight *
+          0.2, // Posicionado más arriba o abajo según la pantalla
       child: Container(
-        width: MediaQuery.of(context).size.width*.9,
-        //margin: EdgeInsets.symmetric(horizontal: 10),
+        width: screenWidth * 0.9, // Ajusta el ancho al 90% de la pantalla
+        padding: EdgeInsets.all(screenWidth * 0.05), // Padding responsive
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 247, 247, 243),
-          borderRadius: BorderRadius.circular(10)
+          borderRadius: BorderRadius.circular(10),
         ),
-        child: ListView(
-          shrinkWrap: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             txtUser,
-            txtPwd
+            SizedBox(height: screenHeight * 0.02), // Espaciado responsive
+            txtPwd,
           ],
         ),
       ),
     );
 
     final btnLogin = Positioned(
-      width: MediaQuery.of(context).size.width * .9,
-      bottom: 40,
+      width: screenWidth * 0.9,
+      bottom: screenHeight * 0.05,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 255, 200, 238)
+          backgroundColor: const Color.fromARGB(255, 255, 200, 238),
+          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
         ),
-        onPressed: (){
+        onPressed: () {
           isLoading = true;
           setState(() {});
-          Future.delayed(
-            const Duration(milliseconds: 4000)
-          ).then((value) => {
-            isLoading = false,
-            setState(() {}),
-            Navigator.pushNamed(context, "/onboarding")
-          });
-        }, 
-        child: const Text('Validar Usuario')
+          Future.delayed(const Duration(milliseconds: 4000)).then((value) => {
+                isLoading = false,
+                setState(() {}),
+                Navigator.pushNamed(context, "/onboarding")
+              });
+        },
+        child: Text(
+          'Validar Usuario',
+          style: TextStyle(fontSize: screenWidth * 0.05),
+        ),
       ),
     );
 
     final gifLoading = Positioned(
-      top: 250,
-      child: Image.asset('assets/loading.gif', height: 80,)
-    );
+        top: screenHeight * 0.35,
+        child: Image.asset(
+          'assets/loading.gif',
+          height:  screenHeight * 0.1,
+        ));
 
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: screenHeight,
+        width: screenWidth,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage('assets/fondo.jpeg')
-          )
-        ),
+            image: DecorationImage(
+                fit: BoxFit.cover, image: AssetImage('assets/fondo.jpeg'))),
         child: Stack(
           alignment: Alignment.center,
           children: [
             Positioned(
-              top: 100,
-              child: Image.asset('assets/logo.png', width: 180,)
-            ),
+                top: screenHeight * 0.1,
+                child: Image.asset(
+                  'assets/logo.png',
+                  width: screenWidth * 0.5,
+                )),
             ctnCredentials,
             btnLogin,
             isLoading ? gifLoading : Container()
