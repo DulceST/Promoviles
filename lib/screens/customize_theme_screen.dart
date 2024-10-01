@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pms2024/setting/global_values.dart';
 
 class CustomizeThemeScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
   Color _appBarColor = Colors.blue;
   Color _floatingActionButtonColor = Colors.green;
   Color _bottomNavigationBarColor = Colors.orange;
+  String _selectedFont = 'Roboto';
 
   Future<void> _pickColor(BuildContext context, Color currentColor, Function(Color) onColorSelected) async {
     Color selectedColor = await showDialog(
@@ -91,6 +93,23 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
                 });
               }),
             ),
+            ListTile(
+              title: const Text('Tipo de letra'),
+              trailing: DropdownButton<String>(
+                value: _selectedFont,
+                items: <String>['Roboto', 'Lato', 'Open Sans', 'Pacifico'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: GoogleFonts.getFont(value)),
+                  );
+                }).toList(),
+                onChanged: (String? newFont) {
+                  setState(() {
+                    _selectedFont = newFont ?? 'Roboto';
+                  });
+                },
+              ),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               child: const Text('Guardar Tema Personalizado'),
@@ -105,6 +124,9 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
                   bottomNavigationBarTheme: BottomNavigationBarThemeData(
                     backgroundColor: _bottomNavigationBarColor,
                   ),
+                  textTheme: TextTheme(
+                    bodyMedium: GoogleFonts.getFont(_selectedFont), 
+                  )
                 );
                 Navigator.pop(context);
               },

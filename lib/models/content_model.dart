@@ -24,7 +24,7 @@ List<UnbordingContent> contents = [
   ),
   UnbordingContent(
     title: 'Guarda tus Favoritas',
-    lottie: 'assets/logo.png', 
+    lottie: 'assets/save.json', 
     discription: "Nunca más olvides tus películas preferidas. Con MovieMagic, puedes "
                  "guardar tus películas favoritas en una lista personal para acceder a ellas rápidamente. "
                  "¡Haz de cada película una experiencia memorable!"

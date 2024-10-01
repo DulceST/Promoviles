@@ -4,9 +4,9 @@ import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
 import 'package:pms2024/screens/onboarding_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
-//import 'package:pms2024/screens_P1/home.dart';
 import 'package:pms2024/screens/login_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 //que inicia la aplicación Flutter y toma un widget como argumento, en este caso, MyApp
@@ -14,7 +14,13 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
+//Metodo que verifica si ya se vio el onboarding
+Future<bool> checkOnboardingSeen() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('onboardingSeen') ?? false;
+}
   
 
 //El método build se llama cada vez que se necesita construir la interfaz
@@ -28,8 +34,7 @@ class MyApp extends StatelessWidget {
             title: 'Material App', //Establece el título de la aplicación.
             debugShowCheckedModeBanner:
                 false, // Desactiva la etiqueta de depuración que aparece en la esquina superior derecha
-            home: const OnboardingScreen(),
-                //const LoginScreen(), //Define el widget que se muestra al iniciar la aplicación, que en este caso es LoginScreen
+            home: const LoginScreen(), //Define el widget que se muestra al iniciar la aplicación, que en este caso es LoginScreen
             //Configura el tema de la aplicacion
             theme: value,
             /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
@@ -41,7 +46,8 @@ class MyApp extends StatelessWidget {
               "/profile": (context) => const ProfileScreen(),
               "/homeContent": (context) => const HomeContentScreen(),
               "/customize": (context) => const CustomizeThemeScreen(),
-              "/login": (context)=> const LoginScreen()
+              "/login": (context)=> const LoginScreen(),
+              "/onboarding": (context) => const OnboardingScreen()
             },
           );
         });

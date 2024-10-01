@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ).then((value) => {
             isLoading = false,
             setState(() {}),
-            Navigator.pushNamed(context, "/home")
+            Navigator.pushNamed(context, "/onboarding")
           });
         }, 
         child: const Text('Validar Usuario')
