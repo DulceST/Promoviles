@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pms2024/setting/global_values.dart';
+import 'package:pms2024/setting/global_values.dart'; // Ajusta esta ruta según tu proyecto
 
 class CustomizeThemeScreen extends StatefulWidget {
   const CustomizeThemeScreen({super.key});
@@ -11,41 +11,58 @@ class CustomizeThemeScreen extends StatefulWidget {
 }
 
 class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
-  Color _scaffoldBackgroundColor = Colors.white;
-  Color _appBarColor = Colors.blue;
-  Color _floatingActionButtonColor = Colors.green;
-  Color _bottomNavigationBarColor = Colors.orange;
+  late Color _scaffoldBackgroundColor;
+  late Color _appBarColor;
+  late Color _floatingActionButtonColor;
+  late Color _bottomNavigationBarColor;
   String _selectedFont = 'Roboto';
 
-  Future<void> _pickColor(BuildContext context, Color currentColor, Function(Color) onColorSelected) async {
-    Color selectedColor = await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Selecciona un color'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: currentColor,
-              onColorChanged: onColorSelected,
-              showLabel: true,
-              pickerAreaHeightPercent: 0.8,
-            ),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('Aceptar'),
-              onPressed: () {
-                Navigator.of(context).pop(currentColor);
-              },
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
+    // Inicializa los colores con los valores actuales del tema
+    final theme = Theme.of(context);
+    _scaffoldBackgroundColor = theme.scaffoldBackgroundColor;
+    _appBarColor = theme.appBarTheme.backgroundColor ?? Colors.blue; // Si el color no está definido, usa un fallback
+    _floatingActionButtonColor = theme.floatingActionButtonTheme.backgroundColor ?? Colors.green;
+    _bottomNavigationBarColor = theme.bottomNavigationBarTheme.backgroundColor ?? Colors.orange;
+  }
+
+  Future<void> _pickColor(BuildContext context, Color currentColor, Function(Color) onColorSelected) async {
+  Color selectedColor = currentColor; // Inicializa con el color actual
+  selectedColor = await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Selecciona un color'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: currentColor,
+            onColorChanged: (color) {
+              selectedColor = color; // Actualiza el color seleccionado mientras se elige
+            },
+            showLabel: true,
+            pickerAreaHeightPercent: 0.8,
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('Aceptar'),
+            onPressed: () {
+              Navigator.of(context).pop(selectedColor); // Retorna el color seleccionado
+            },
+          ),
+        ],
+      );
+    },
+  ) ?? currentColor; // Si se cierra el diálogo sin seleccionar, usa el color actual
+
+  // Asegúrate de que el color seleccionado se aplique
     onColorSelected(selectedColor);
-    }
   
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +76,16 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
           children: [
             ListTile(
               title: const Text('Color de fondo de la pantalla'),
-              trailing: CircleAvatar(backgroundColor: _scaffoldBackgroundColor),
+              trailing: Container(
+                padding: const EdgeInsets.all(2), // Padding para el borde
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black, width: 2), // Borde negro
+                ),
+                child: CircleAvatar(
+                  backgroundColor: _scaffoldBackgroundColor,
+                ),
+              ),
               onTap: () => _pickColor(context, _scaffoldBackgroundColor, (color) {
                 setState(() {
                   _scaffoldBackgroundColor = color;
@@ -68,7 +94,16 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
             ),
             ListTile(
               title: const Text('Color de la barra superior'),
-              trailing: CircleAvatar(backgroundColor: _appBarColor),
+              trailing: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black, width: 1),
+                ),
+                child: CircleAvatar(
+                  backgroundColor: _appBarColor,
+                ),
+              ),
               onTap: () => _pickColor(context, _appBarColor, (color) {
                 setState(() {
                   _appBarColor = color;
@@ -77,7 +112,16 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
             ),
             ListTile(
               title: const Text('Color del botón flotante'),
-              trailing: CircleAvatar(backgroundColor: _floatingActionButtonColor),
+              trailing: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: CircleAvatar(
+                  backgroundColor: _floatingActionButtonColor,
+                ),
+              ),
               onTap: () => _pickColor(context, _floatingActionButtonColor, (color) {
                 setState(() {
                   _floatingActionButtonColor = color;
@@ -86,7 +130,16 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
             ),
             ListTile(
               title: const Text('Color de la barra de navegación inferior'),
-              trailing: CircleAvatar(backgroundColor: _bottomNavigationBarColor),
+              trailing: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: CircleAvatar(
+                  backgroundColor: _bottomNavigationBarColor,
+                ),
+              ),
               onTap: () => _pickColor(context, _bottomNavigationBarColor, (color) {
                 setState(() {
                   _bottomNavigationBarColor = color;
@@ -125,8 +178,8 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
                     backgroundColor: _bottomNavigationBarColor,
                   ),
                   textTheme: TextTheme(
-                    bodyMedium: GoogleFonts.getFont(_selectedFont), 
-                  )
+                    bodyMedium: GoogleFonts.getFont(_selectedFont),
+                  ),
                 );
                 Navigator.pop(context);
               },
