@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pms2024/screens/customize_theme_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
+import 'package:pms2024/screens/movies_screen.dart';
 import 'package:pms2024/screens/onboarding_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
 import 'package:pms2024/screens/login_screen.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
               "/login": (context) => const LoginScreen(),
               "/onboarding": (context) => const OnboardingScreen(),
               "/homeProduct": (context) => Home(),
+              "/db": (context) => MoviesScreen()
             },
           );
         });
