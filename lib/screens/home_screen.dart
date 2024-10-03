@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             trailing: const Icon(Icons.chevron_right),
           ),
           ListTile(
-            onTap: () => Navigator.pushNamed(context, '/db'),
+            onTap: () => Navigator.pushNamed(context, '/homeProduct'),
             title: const Text('Practica 1'),
             subtitle: const Text('Practica 1: Challenge '),
             leading: const Icon(Icons.pets),
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const Spacer(),
           ListTile(
-            onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+            onTap: () => {Navigator.pushReplacementNamed(context, '/login'),},
             title: const Text('Cerrar sesion'),
             leading: const Icon(Icons.exit_to_app),
           )

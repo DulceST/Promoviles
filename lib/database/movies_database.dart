@@ -3,69 +3,72 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:pms2024/models/moviesDAO.dart';
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 
 class MoviesDatabase {
-  static const NAMEDB = 'MOVIESDB';
-  static const VERSIONDB = 1;
+  
+  static final NAMEDB = 'MOVIESDB';
+  static final VERSIONDB = 1;
 
   static Database? _database;
+
   Future<Database> get database async {
-    if (_database != null) return _database!;
+    if( _database != null ) return _database!;
     return _database = await initDatabase();
   }
-
+  
   Future<Database> initDatabase() async {
-    Directory folder =
-        await getApplicationDocumentsDirectory(); //CON ESTE METODO ACCCEDEMOS A DIRECTORIOS SEGUROS
-    String path = join(folder.path, NAMEDB);
-    return openDatabase(path, version: VERSIONDB, onCreate: (db, version) {
-      //PARA CUANDO SEA LA PRIMERA VEZ QUE SE INSTALA LA APP EJECUTE ESTE METODO
-      //DENTRO ESTE METODO PODEMOS EJECUTAR LOS QUERYS QUE QUERAMOS
-      String query1 = '''
+    Directory folder = await getApplicationDocumentsDirectory();
+    String path = join(folder.path,NAMEDB);  
+    return openDatabase(
+      path,
+      version: VERSIONDB,
+      onCreate: (db, version) {
+
+
+        String query1 = '''
           CREATE TABLE tblgenre(
-            idGenre char(1) PRIMARY KEY,
-            dscgenre VARCHAR(50)
-          );''';
+          idGenre char(1) PRIMARY KEY,
+          dscgenre VARCHAR(50)  
+        );
+        ''';
 
-          db.execute(query1);
-      String query2 = '''
-          CREATE TABLE tblmovies(
-            idmovie INTEGER PRIMARY KEY ,
-            nameMovie varchar(100),
-            overview text(),
-            idGenero char(1),
-            imgMovie VARCGAR(150),
-            releaseDate CHAR(10), 
-            constraint fk_genre foreign key(idGenero) references tblgenre(idGenre);
+        db.execute(query1);
+
+        String query2 ='''
+         CREATE TABLE tblmovies(
+          idMovie INTEGER PRIMARY KEY,
+          nameMovie VARCHAR(100),
+          overview TEXT,
+          idGenre char(1),
+          imgMovie VARCHAR(150),
+          releaseDate CHAR(10),
+          CONSTRAINT fk_gen FOREIGN KEY(idGenre) REFERENCES tblgenre(idGenre)
         );''';
-      db.execute(query2);
-    },
+        db.execute(query2);
+      },
     );
-  } //initdatabase
+  } // initdatabase
 
-//estos seran metodos que se ejecuten en ssegundo plano
-  Future<int> INSERT(String table, Map<String, dynamic> row) async {
-    //dynamic utiliza para regresar cualquier tipo de dato
+  Future<int> INSERT(String table, Map<String,dynamic> row) async {
     var con = await database;
     return await con.insert(table, row);
   }
 
-  Future<int> UPDATE(String table, Map<String, dynamic> row) async {
+  Future<int> UPDATE(String table, Map<String,dynamic> row) async {
     var con = await database;
-    return await con.update(table, row, where: 'idMovie = ?', whereArgs: [
-      row['idMovie'],
-    ]);
+    return await con.update(table, row, where: 'idMovie = ?', whereArgs: [row['idMovie']]);
   }
 
   Future<int> DELETE(String table, int idMovie) async {
-    var con = await database; //para ver si existe la conexion
+    var con = await database;
     return await con.delete(table, where: 'idMovie = ?', whereArgs: [idMovie]);
   }
 
-  Future<List<MoviesDAO>> SELECT() async {
+  Future<List<MoviesDAO>?> SELECT() async {
     var con = await database;
     var result = await con.query('tblmovies');
-    return result.map((movie) => MoviesDAO.fromMap(movie)).toList();
+    return result.map((movie) => MoviesDAO.fromMap(movie)).toList(); 
   }
 }
