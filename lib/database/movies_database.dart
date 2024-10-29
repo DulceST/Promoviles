@@ -29,7 +29,7 @@ class MoviesDatabase {
 
         String query1 = '''
           CREATE TABLE tblgenre(
-          idGenre char(1) PRIMARY KEY,
+          idGenre CHAR(1) PRIMARY KEY,
           dscgenre VARCHAR(50)  
         );
         ''';

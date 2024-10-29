@@ -42,6 +42,7 @@ class _CustomizeThemeScreenState extends State<CustomizeThemeScreen> {
             onColorChanged: (color) {
               selectedColor = color; // Actualiza el color seleccionado mientras se elige
             },
+            // ignore: deprecated_member_use
             showLabel: true,
             pickerAreaHeightPercent: 0.8,
           ),

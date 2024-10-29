@@ -1,9 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pms2024/firebase_options.dart';
 import 'package:pms2024/screens/customize_theme_screen.dart';
+import 'package:pms2024/screens/detail_popular_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
+import 'package:pms2024/screens/login_screen_firebase.dart';
 import 'package:pms2024/screens/movies_screen.dart';
 import 'package:pms2024/screens/onboarding_screen.dart';
+import 'package:pms2024/screens/popular_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
 import 'package:pms2024/screens/login_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
@@ -11,30 +16,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pms2024/screens/home.dart';
 
 //que inicia la aplicación Flutter y toma un widget como argumento, en este caso, MyApp
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
+  // Cargar el estado del Onboarding antes de iniciar la app
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
+
+  runApp(MyApp(onboardingSeen: onboardingSeen));
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool onboardingSeen; // Recibe el estado de si el onboarding ya fue visto
 
-//Metodo que verifica si ya se vio el onboarding
-  Future<bool> checkOnboardingSeen() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('onboardingSeen') ?? false;
-  }
+  const MyApp({super.key, required this.onboardingSeen});
 
 //El método build se llama cada vez que se necesita construir la interfaz
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
         valueListenable: GlobalValues.selectedTheme,
+        // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
         builder: (context, value, Widget) {
           //es el widget principal de la aplicación que proporciona el diseño y la funcionalidad de Material Design
           return MaterialApp(
             title: 'Material App', //Establece el título de la aplicación.
             debugShowCheckedModeBanner:
                 false, // Desactiva la etiqueta de depuración que aparece en la esquina superior derecha
-            home:
-                const LoginScreen(), //Define el widget que se muestra al iniciar la aplicación, que en este caso es LoginScreen
+            home:onboardingSeen
+            //const LoginScreenFirebase(),
+                ? const LoginScreen() // Si ya se vio el onboarding, va al login
+                : const OnboardingScreen(), // Si no, muestra el onboarding
             //Configura el tema de la aplicacion
             theme: value,
             /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
@@ -47,9 +60,13 @@ class MyApp extends StatelessWidget {
               "/homeContent": (context) => const HomeContentScreen(),
               "/customize": (context) => const CustomizeThemeScreen(),
               "/login": (context) => const LoginScreen(),
+              "/loginFirebase": (context) => const LoginScreenFirebase(),
               "/onboarding": (context) => const OnboardingScreen(),
               "/homeProduct": (context) => Home(),
-              "/db": (context) => MoviesScreen()
+              "/db": (context) => MoviesScreen(),
+              "/popular": (context) => PopularScreen(),
+              "/detail": (context) => DetailPopularScreen()
+            
             },
           );
         });

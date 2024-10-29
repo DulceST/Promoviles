@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pms2024/models/content_model.dart';
 import 'package:pms2024/screens/home_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -11,19 +12,46 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-   int currentIndex = 0;
+  int currentIndex = 0;
   late PageController _controller;
 
   @override
   void initState() {
-    _controller = PageController(initialPage: 0); // Controlador de PageView
     super.initState();
+    _controller = PageController(initialPage: 0);
+    _checkIfOnboardingSeen(); // Verifica si el onboarding ya ha sido visto
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // Liberar el controlador
+    _controller.dispose();
     super.dispose();
+  }
+
+  // Verificar si el usuario ya vio el onboarding
+  Future<void> _checkIfOnboardingSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool onboardingSeen = prefs.getBool('onboardingSeen') ?? false;
+
+    if (onboardingSeen) {
+      // Si ya se vio, navega directamente a HomeScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    }
+  }
+
+  // Marcar que el onboarding fue visto
+  Future<void> _markOnboardingSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingSeen', true);
+  }
+
+  // Método para reiniciar el onboarding al cerrar sesión
+  Future<void> _resetOnboardingStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingSeen', false);
   }
 
   @override
@@ -33,7 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           Expanded(
             child: PageView.builder(
-              controller: _controller, // Controlador de PageView
+              controller: _controller,
               itemCount: contents.length,
               onPageChanged: (int index) {
                 setState(() {
@@ -87,6 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: ElevatedButton(
               onPressed: () {
                 if (currentIndex == contents.length - 1) {
+                  _markOnboardingSeen(); // Marca que se ha visto el onboarding
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

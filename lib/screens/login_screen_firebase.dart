@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreenFirebase extends StatefulWidget {
+  const LoginScreenFirebase({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenFirebase> createState() => _LoginScreenFirebase();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenFirebase extends State<LoginScreenFirebase> {
   final conUser = TextEditingController();
+  final conEmail = TextEditingController();
   final conPwd = TextEditingController();
   bool isLoading = false;
 
@@ -17,12 +18,19 @@ class _LoginScreenState extends State<LoginScreen> {
     //Obtener tamaño de la pantalla
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
-    TextFormField txtUser = TextFormField(
+    
+    TextFormField txtUserName = TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: conUser,
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.person, size: screenWidth * 0.06)),
+    );
+
+      TextFormField txtEmail = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      controller: conEmail,
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.email, size: screenWidth * 0.06)),
     );
 
     final txtPwd = TextFormField(
@@ -46,7 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            txtUser,
+            txtUserName,
+            SizedBox(height: screenHeight * 0.02),
+            txtEmail,
             SizedBox(height: screenHeight * 0.02), // Espaciado responsive
             txtPwd,
           ],
@@ -73,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               });
         },
         child: Text(
-          'Validar Usuario',
+          'Registrar',
           style: TextStyle(fontSize: screenWidth * 0.05),
         ),
       ),

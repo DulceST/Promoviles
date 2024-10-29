@@ -35,6 +35,7 @@ class Productcard extends StatelessWidget {
       columnAnimation -= 50;
     }
 
+    // ignore: avoid_unnecessary_containers
     return Container(
       child: Stack(
         clipBehavior: Clip.none,
@@ -147,7 +148,6 @@ class Productcard extends StatelessWidget {
                 color: Color.fromARGB(255, 236, 245, 63),
               ),
               onRatingUpdate: (rating) {
-                print(rating);
               },
             ),
             const SizedBox(

@@ -57,6 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //verififca si existe la aplicacion en el dispositivo
       await launchUrl(uri); //si canLaunchUrl es true abre el URL
     } else {
+      // ignore: avoid_print
       print('No se pudo abrir la URL: $url');
     }
   }
