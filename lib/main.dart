@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pms2024/firebase_options.dart';
 import 'package:pms2024/screens/customize_theme_screen.dart';
 import 'package:pms2024/screens/detail_popular_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
-import 'package:pms2024/screens/login_screen_firebase.dart';
 import 'package:pms2024/screens/movies_screen.dart';
+import 'package:pms2024/screens/movies_screen_firebase.dart';
 import 'package:pms2024/screens/onboarding_screen.dart';
 import 'package:pms2024/screens/popular_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
@@ -18,7 +17,13 @@ import 'package:pms2024/screens/home.dart';
 //que inicia la aplicación Flutter y toma un widget como argumento, en este caso, MyApp
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+   try {
+    await Firebase.initializeApp();
+    print("Firebase se ha inicializado correctamente."); // Mensaje de consola
+  } catch (e) {
+    print("Error al inicializar Firebase: $e"); // Mensaje de error si falla
+  }
   
   // Cargar el estado del Onboarding antes de iniciar la app
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,12 +65,12 @@ class MyApp extends StatelessWidget {
               "/homeContent": (context) => const HomeContentScreen(),
               "/customize": (context) => const CustomizeThemeScreen(),
               "/login": (context) => const LoginScreen(),
-              "/loginFirebase": (context) => const LoginScreenFirebase(),
               "/onboarding": (context) => const OnboardingScreen(),
               "/homeProduct": (context) => Home(),
-              "/db": (context) => MoviesScreen(),
+              "/moviesScreen": (context) => MoviesScreen(),
               "/popular": (context) => PopularScreen(),
-              "/detail": (context) => DetailPopularScreen()
+              "/detail": (context) => DetailPopularScreen(),
+              "/moviesfirebase": (context) => MoviesScreenFirebase()
             
             },
           );

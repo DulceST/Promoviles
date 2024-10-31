@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pms2024/models/popular_movie.dart';
+import 'package:pms2024/models/popular_moviedao.dart';
+import 'package:pms2024/provider/test_provider.dart';
+import 'package:provider/provider.dart';
 
 class DetailPopularScreen extends StatefulWidget {
   const DetailPopularScreen({super.key});
@@ -13,7 +15,9 @@ class _DetailPopularScreenState extends State<DetailPopularScreen> {
   Widget build(BuildContext context) {
     final popular =
         ModalRoute.of(context)!.settings.arguments as PopularMovieDao;
+        final testProvider = Provider.of<TestProvider>(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () => testProvider.name='prueba test provider',),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
