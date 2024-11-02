@@ -53,6 +53,7 @@ dependencies:
   firebase_auth: ^5.3.1
   cloud_firestore:
   provider: ^6.1.2
+  http:
 
 
 dev_dependencies:
