@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
               "/homeProduct": (context) => Home(),
               "/moviesScreen": (context) => MoviesScreen(),
               "/popular": (context) => PopularScreen(),
-              "/detail": (context) => DetailPopularScreen(),
-              "/moviesScreenfirebase": (context) => MoviesScreenFirebase()
+              "/detailPopular": (context) => DetailPopularScreen(),
+              "/moviesScreenfirebase": (context) => MoviesScreenFirebase(),
             
             },
           );
