@@ -1,31 +1,36 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pms2024/models/moviesDAO.dart';
 
-class DetailsMovie extends StatelessWidget {
-  const DetailsMovie({super.key, required this.imageUrl});
-  final String imageUrl;
+class DetailsMovie extends StatefulWidget {
+  const DetailsMovie({super.key, required this.moviesDAO});
+  final MoviesDAO moviesDAO;
 
+  @override
+  State<DetailsMovie> createState() => _DetailsMovieState();
+}
+
+class _DetailsMovieState extends State<DetailsMovie> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagen de fondo difuminada
           Positioned.fill(
             child: Image.network(
-              imageUrl,
+              widget.moviesDAO.imgMovie ??'https://i.etsystatic.com/18242346/r/il/933afb/6210006997/il_570xN.6210006997_9fqx.jpg',
               fit: BoxFit.cover,
             ),
           ),
           // Efecto de difuminado
           Positioned.fill(
             child: Container(
-              color: Colors.black.withOpacity(0.4), // Ajusta la opacidad
+              color: Colors.black.withOpacity(0.4),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
-                  color: Colors.black.withOpacity(0.2), // Difumina un poco más
+                  color: Colors.black.withOpacity(0.2),
                 ),
               ),
             ),

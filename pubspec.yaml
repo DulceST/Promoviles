@@ -54,6 +54,7 @@ dependencies:
   cloud_firestore:
   provider: ^6.1.2
   http:
+  youtube_player_flutter:
 
 
 dev_dependencies:

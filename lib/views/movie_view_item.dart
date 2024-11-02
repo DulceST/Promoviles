@@ -39,8 +39,8 @@ class _MovieViewItemState extends State<MovieViewItem> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailsMovie(imageUrl: widget.moviesDAO.imgMovie ??'https://i.etsystatic.com/18242346/r/il/933afb/6210006997/il_570xN.6210006997_9fqx.jpg'), // Reemplaza con la pantalla a la que deseas navegar
-          ),
+                DetailsMovie(moviesDAO: widget.moviesDAO),
+        ),
         );
       },
       child: Card(
