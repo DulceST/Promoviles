@@ -49,10 +49,8 @@ class MyApp extends StatelessWidget {
             title: 'Material App', //Establece el título de la aplicación.
             debugShowCheckedModeBanner:
                 false, // Desactiva la etiqueta de depuración que aparece en la esquina superior derecha
-            home:onboardingSeen
-            //const LoginScreenFirebase(),
-                ? const LoginScreen() // Si ya se vio el onboarding, va al login
-                : const OnboardingScreen(), // Si no, muestra el onboarding
+            home://onboardingSeen
+            const LoginScreen(),
             //Configura el tema de la aplicacion
             theme: value,
             /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
@@ -70,7 +68,7 @@ class MyApp extends StatelessWidget {
               "/moviesScreen": (context) => MoviesScreen(),
               "/popular": (context) => PopularScreen(),
               "/detail": (context) => DetailPopularScreen(),
-              "/moviesfirebase": (context) => MoviesScreenFirebase()
+              "/moviesScreenfirebase": (context) => MoviesScreenFirebase()
             
             },
           );

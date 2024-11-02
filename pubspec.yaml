@@ -51,7 +51,7 @@ dependencies:
   dio: ^5.7.0
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
-  cloud_firestore: ^5.4.4
+  cloud_firestore:
   provider: ^6.1.2
 
 

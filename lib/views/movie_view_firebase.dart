@@ -1,3 +1,5 @@
+//inserta una pelicula pero usando la bd firebase
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pms2024/firebase/database_movie_firebases.dart';
@@ -81,12 +83,13 @@ class _MovieViewState extends State<MovieViewFirebase> {
     final btnSave = ElevatedButton(
       onPressed: () {
         if (widget.moviesDAO == null) {
+          print("Intentando insertar en Firestore...");
           moviesDatabase!.INSERT(
             {
               'nameMovie': conName.text,
               'overview': conOverview.text,
               'imgMovie': conImgMovie.text,
-              'releaseDate': conRelease.text
+              'releaseDate': Timestamp.fromDate(DateFormat('dd-MM-yyyy').parse(conRelease.text)),
             },
           ).then((value) {
             if (value) {

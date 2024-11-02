@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:pms2024/firebase/database_movie_firebases.dart';
 import 'package:pms2024/models/moviesDAO.dart';
-import 'package:pms2024/views/movie_view.dart';
+import 'package:pms2024/views/movie_view_firebase.dart';
 import 'package:pms2024/views/movie_view_item_firebase.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
@@ -14,11 +14,12 @@ class MoviesScreenFirebase extends StatefulWidget {
 }
 
 class _MoviesScreenFirebaseState extends State<MoviesScreenFirebase> {
-  DatabaseMovieFirebases? databaseMovies;
+  late DatabaseMovieFirebases? databaseMovies;
+  
   @override
   void initState() {
-    databaseMovies = DatabaseMovieFirebases();
     super.initState();
+    databaseMovies = DatabaseMovieFirebases();
   }
 
   @override
@@ -32,7 +33,7 @@ class _MoviesScreenFirebaseState extends State<MoviesScreenFirebase> {
                 WoltModalSheet.show(
                     context: context,
                     pageListBuilder: (context) =>
-                        [WoltModalSheetPage(child: MovieView())]);
+                        [WoltModalSheetPage(child: MovieViewFirebase())]);
               },
               icon: const Icon(Icons.add))
         ],
@@ -46,11 +47,11 @@ class _MoviesScreenFirebaseState extends State<MoviesScreenFirebase> {
               itemBuilder: (context, index) {
                 return MovieViewItemFirebase(
                     moviesDAO: MoviesDAO.fromMap({
-                  'idMovie': '${snapshot.data!.docs[index].id}',
+                  'idMovief': '${snapshot.data!.docs[index].id}',
                   'imgMovie': '${snapshot.data!.docs[index].get('imgMovie')}',
                   'nameMovie': '${snapshot.data!.docs[index].get('nameMovie')}',
                   'overview': '${snapshot.data!.docs[index].get('overview')}',
-                  'releaseData': '${snapshot.data!.docs[index].get('releaseData')}'
+                  'releaseDate': '${snapshot.data!.docs[index].get('releaseDate')}'
                 }));
               },
             );

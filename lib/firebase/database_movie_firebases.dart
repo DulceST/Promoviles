@@ -10,13 +10,15 @@ class DatabaseMovieFirebases {
   }
 
   Future<bool> INSERT(Map<String, dynamic> movies) async {
-    try {
-      collectionReference!.doc().set(movies);
-    } catch (e) {
-      kDebugMode ? print('Error al insertar: ${e.toString()}'): '';
-    }
-    return true;
-  }
+   try {
+      await collectionReference!.doc().set(movies);
+      return true;
+   } catch (e) {
+      kDebugMode ? print('Error al insertar: ${e.toString()}') : '';
+      return false;
+   }
+}
+
 
   Future<void> UPDATE(Map<String, dynamic> movies, String id) async {
     return collectionReference!.doc(id).update(movies);

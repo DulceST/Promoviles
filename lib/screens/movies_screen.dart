@@ -1,3 +1,4 @@
+//junta movies_view y movie_view_item para crear la interfaz de peliculas
 import 'package:flutter/material.dart';
 import 'package:pms2024/database/movies_database.dart';
 import 'package:pms2024/models/moviesDAO.dart';

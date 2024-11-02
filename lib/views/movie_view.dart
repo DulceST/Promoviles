@@ -1,3 +1,4 @@
+//inserta una nueva pelicula en BD local
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pms2024/database/movies_database.dart';

@@ -1,3 +1,4 @@
+//crea la tarjeta con las opciones
 import 'package:flutter/material.dart';
 import 'package:pms2024/database/movies_database.dart';
 import 'package:pms2024/models/moviesDAO.dart';
