@@ -37,5 +37,21 @@ class DetailsApi {
       return null;
     }
   }
+
+//Obtener actores 
+  Future<List<dynamic>?> getMovieCast(int movieId) async {
+  final url = Uri.parse(
+      'https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$apiKey&language=en-US');
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    return data['cast']; // Devuelve la lista de actores
+  } else {
+    print('Error al obtener los actores: ${response.statusCode}');
+    return null;
+  }
+}
+
 }
 

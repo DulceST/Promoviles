@@ -16,30 +16,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
   final DetailsApi detailsApi = DetailsApi();
   String? trailerUrl;
   late YoutubePlayerController _youtubePlayerController;
-
-  Future<void> fetchTrailerUrlByName(String movieName) async {
-    final movieId = await detailsApi.searchMovieByName(movieName);
-    if (movieId != null) {
-      final trailerData = await detailsApi.getMovieTrailer(movieId);
-      if (trailerData != null && trailerData['key'] != null) {
-        setState(() {
-          trailerUrl = trailerData['key'];
-          _youtubePlayerController = YoutubePlayerController(
-            initialVideoId: trailerUrl!,
-            flags: YoutubePlayerFlags(autoPlay: false, mute: false),
-          );
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No se encontró el tráiler.')),
-        );
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No se encontró la película.')),
-      );
-    }
-  }
+  List<dynamic>? castData; 
 
   @override
   void initState() {
@@ -53,6 +30,72 @@ class _DetailsMovieState extends State<DetailsMovie> {
     super.dispose();
   }
 
+  Future<void> fetchTrailerUrlByName(String movieName) async {
+    final movieId = await detailsApi.searchMovieByName(movieName);
+    if (movieId != null) {
+      final trailerData = await detailsApi.getMovieTrailer(movieId);
+      if (trailerData != null && trailerData['key'] != null) {
+        setState(() {
+          trailerUrl = trailerData['key'];
+          _youtubePlayerController = YoutubePlayerController(
+            initialVideoId: trailerUrl!,
+            flags: YoutubePlayerFlags(autoPlay: false, mute: false),
+          );
+        });
+        fetchMovieCast(movieId);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se encontró el tráiler.')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No se encontró la película.')),
+      );
+    }
+  }
+
+  Future<void> fetchMovieCast(int movieId) async {
+    final castResponse = await detailsApi.getMovieCast(movieId); // Asegúrate de tener el método para obtener los actores
+    setState(() {
+      castData = castResponse; // Almacena la lista de actores
+    });
+  }
+
+  Widget buildCastList(List<dynamic> cast) {
+    return Container(
+      height: 100, // Altura del contenedor
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: cast.length,
+        itemBuilder: (context, index) {
+          final actor = cast[index];
+          return Container(
+            width: 80, // Ancho de cada tarjeta
+            child: Column(
+              children: [
+                actor['profile_path'] != null
+                    ? Image.network(
+                        'https://image.tmdb.org/t/p/w500${actor['profile_path']}',
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        height: 80,
+                        color: Colors.grey,
+                        child: Icon(Icons.person, size: 40),
+                      ),
+                Text(actor['name'],
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +103,8 @@ class _DetailsMovieState extends State<DetailsMovie> {
         children: [
           Positioned.fill(
             child: Image.network(
-              widget.moviesDAO.imgMovie ?? 
-              'https://i.etsystatic.com/18242346/r/il/933afb/6210006997/il_570xN.6210006997_9fqx.jpg',
+              widget.moviesDAO.imgMovie ??
+                  'https://i.etsystatic.com/18242346/r/il/933afb/6210006997/il_570xN.6210006997_9fqx.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -77,43 +120,49 @@ class _DetailsMovieState extends State<DetailsMovie> {
             ),
           ),
           Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        'Detalles de la Película',
-        style: TextStyle(color: Colors.white, fontSize: 24),
-      ),
-      if (trailerUrl != null)
-        YoutubePlayer(
-          controller: _youtubePlayerController,
-          showVideoProgressIndicator: true,
-        )
-      else
-        CircularProgressIndicator(),
-      SizedBox(height: 16), // Espacio entre el título y los detalles
-      Text(
-        '${widget.moviesDAO.nameMovie}',
-        style: TextStyle(color: Colors.white, fontSize: 18),
-      ),
-      Text(
-        'Fecha de lanzamiento: ${widget.moviesDAO.releaseDate}',
-        style: TextStyle(color: Colors.white, fontSize: 18),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Text(
-          'Descripción: ${widget.moviesDAO.overview}',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      SizedBox(height: 16),
-      
-    ],
-  ),
-),
-
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Detalles de la Película',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+                if (trailerUrl != null)
+                  YoutubePlayer(
+                    controller: _youtubePlayerController,
+                    showVideoProgressIndicator: true,
+                  )
+                else
+                  CircularProgressIndicator(),
+                SizedBox(height: 16), // Espacio entre el título y los detalles
+                Text(
+                  '${widget.moviesDAO.nameMovie}',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                Text(
+                  'Fecha de lanzamiento: ${widget.moviesDAO.releaseDate}',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    'Descripción: ${widget.moviesDAO.overview}',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 16),
+                 if (castData != null && castData!.isNotEmpty) // Asegúrate de que la lista de actores no esté vacía
+                Container(
+                  height: 200,
+                  child: buildCastList(castData!)
+                )
+                                  else
+                CircularProgressIndicator(),
+              
+              ],
+            ),
+          ),
         ],
       ),
     );
