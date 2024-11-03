@@ -77,23 +77,43 @@ class _DetailsMovieState extends State<DetailsMovie> {
             ),
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Detalles de la Película',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-                if (trailerUrl != null)
-                  YoutubePlayer(
-                    controller: _youtubePlayerController,
-                    showVideoProgressIndicator: true,
-                  )
-                else
-                  CircularProgressIndicator(),
-              ],
-            ),
-          ),
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        'Detalles de la Película',
+        style: TextStyle(color: Colors.white, fontSize: 24),
+      ),
+      if (trailerUrl != null)
+        YoutubePlayer(
+          controller: _youtubePlayerController,
+          showVideoProgressIndicator: true,
+        )
+      else
+        CircularProgressIndicator(),
+      SizedBox(height: 16), // Espacio entre el título y los detalles
+      Text(
+        '${widget.moviesDAO.nameMovie}',
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      Text(
+        'Fecha de lanzamiento: ${widget.moviesDAO.releaseDate}',
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          'Descripción: ${widget.moviesDAO.overview}',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      SizedBox(height: 16),
+      
+    ],
+  ),
+),
+
         ],
       ),
     );

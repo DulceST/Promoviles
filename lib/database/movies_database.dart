@@ -66,6 +66,13 @@ class MoviesDatabase {
     return await con.delete(table, where: 'idMovie = ?', whereArgs: [idMovie]);
   }
 
+//Usado para pruebas, elimina todo en la bd
+  Future<void> deleteAllMovies() async {
+    final db = await database; // Obtiene la instancia de la base de datos
+    await db.delete('tblmovies'); // Elimina todos los registros de la tabla
+    print('Todos los registros han sido eliminados de tblmovies');
+  }
+
   Future<List<MoviesDAO>?> SELECT() async {
     var con = await database;
     var result = await con.query('tblmovies');

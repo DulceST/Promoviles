@@ -18,11 +18,23 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   late MoviesDatabase moviesDB;
 
+  void eliminarTodo() async {
+  await moviesDB.deleteAllMovies();
+}
+
+
+
   @override
   void initState() {
     super.initState();
     moviesDB = MoviesDatabase();
+   // eliminarTodo() ;
   }
+
+  
+
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -49,8 +49,8 @@ class _MovieViewItemState extends State<MovieViewItem> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
-          padding: const EdgeInsets.all(4),
-          height: 160,
+          padding: const EdgeInsets.all(12),
+          height: 130,
           decoration:
               BoxDecoration(color: const Color.fromARGB(255, 187, 223, 240)),
           child: Column(
@@ -110,8 +110,6 @@ class _MovieViewItemState extends State<MovieViewItem> {
                       icon: Icon(Icons.delete)),
                 ],
               ),
-              Divider(),
-              Text(widget.moviesDAO.overview!),
             ],
           ),
         ),
