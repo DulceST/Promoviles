@@ -55,7 +55,7 @@ dependencies:
   provider: ^6.1.2
   http:
   youtube_player_flutter:
-
+  video_player: 
 
 dev_dependencies:
   flutter_test:
