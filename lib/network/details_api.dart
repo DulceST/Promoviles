@@ -53,5 +53,30 @@ class DetailsApi {
   }
 }
 
+//Agregar pelicula a favoritos
+Future<void> addMovieToFavorites(int movieId, bool isFavorite) async {
+  final url = Uri.parse('https://api.themoviedb.org/3/account/{account_id}/favorite?api_key=$apiKey');
+  
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({
+      'media_type': 'movie',
+      'media_id': movieId,
+      'favorite': isFavorite, // true para agregar, false para eliminar
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print(isFavorite ? 'Película agregada a favoritos' : 'Película eliminada de favoritos');
+  } else {
+    print('Error al agregar/eliminar de favoritos: ${response.statusCode}');
+  }
+}
+
+
+
+
+
 }
 

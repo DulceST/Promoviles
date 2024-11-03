@@ -16,7 +16,8 @@ class _DetailsMovieState extends State<DetailsMovie> {
   final DetailsApi detailsApi = DetailsApi();
   String? trailerUrl;
   late YoutubePlayerController _youtubePlayerController;
-  List<dynamic>? castData; 
+  List<dynamic>? castData;
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -28,6 +29,20 @@ class _DetailsMovieState extends State<DetailsMovie> {
   void dispose() {
     _youtubePlayerController.dispose();
     super.dispose();
+  }
+
+  void toggleFavorite(int movieId) async {
+    setState(() {
+      isFavorite = !isFavorite; // Cambia el estado a lo contrario
+    });
+
+    await detailsApi.addMovieToFavorites(
+        movieId, isFavorite); // Llama al método para agregar o eliminar
+    if (isFavorite) {
+      print('Película agregada a favoritos');
+    } else {
+      print('Película eliminada de favoritos');
+    }
   }
 
   Future<void> fetchTrailerUrlByName(String movieName) async {
@@ -56,7 +71,8 @@ class _DetailsMovieState extends State<DetailsMovie> {
   }
 
   Future<void> fetchMovieCast(int movieId) async {
-    final castResponse = await detailsApi.getMovieCast(movieId); // Asegúrate de tener el método para obtener los actores
+    final castResponse = await detailsApi.getMovieCast(
+        movieId); // Asegúrate de tener el método para obtener los actores
     setState(() {
       castData = castResponse; // Almacena la lista de actores
     });
@@ -64,7 +80,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
 
   Widget buildCastList(List<dynamic> cast) {
     return Container(
-      height: 100, // Altura del contenedor
+      height: 100, 
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: cast.length,
@@ -94,11 +110,28 @@ class _DetailsMovieState extends State<DetailsMovie> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Detalles de la Película'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: isFavorite ? Colors.red : Colors.white,
+            ),
+            onPressed: () {
+              final movieId = widget.moviesDAO.idMovie; // Obtén el ID de la película
+              if (movieId != null) { // Asegúrate de que movieId no sea null
+                toggleFavorite(movieId); // Llama a la función para alternar favoritos
+              } else {
+                print('No se encontró el ID de la película para agregar a favoritos');
+              }
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -123,10 +156,6 @@ class _DetailsMovieState extends State<DetailsMovie> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Detalles de la Película',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
                 if (trailerUrl != null)
                   YoutubePlayer(
                     controller: _youtubePlayerController,
@@ -152,14 +181,12 @@ class _DetailsMovieState extends State<DetailsMovie> {
                   ),
                 ),
                 SizedBox(height: 16),
-                 if (castData != null && castData!.isNotEmpty) // Asegúrate de que la lista de actores no esté vacía
-                Container(
-                  height: 200,
-                  child: buildCastList(castData!)
-                )
-                                  else
-                CircularProgressIndicator(),
-              
+                if (castData != null &&
+                    castData!
+                        .isNotEmpty) // Asegúrate de que la lista de actores no esté vacía
+                  Container(height: 200, child: buildCastList(castData!))
+                else
+                  CircularProgressIndicator(),
               ],
             ),
           ),

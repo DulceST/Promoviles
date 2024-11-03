@@ -53,9 +53,15 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   )
                 ]
               );
-
             }, 
-            icon: const Icon(Icons.add) 
+            icon: const Icon(Icons.add)  
+          ),
+          IconButton(
+            onPressed: (){
+              
+            }, 
+            icon: const Icon(Icons.favorite) 
+            
           )
         ],
       ),
