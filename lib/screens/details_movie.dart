@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pms2024/models/moviesDAO.dart';
 import 'package:pms2024/network/details_api.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -18,6 +19,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
   late YoutubePlayerController _youtubePlayerController;
   List<dynamic>? castData;
   bool isFavorite = false;
+  double _rating = 0.0;
 
   @override
   void initState() {
@@ -29,20 +31,6 @@ class _DetailsMovieState extends State<DetailsMovie> {
   void dispose() {
     _youtubePlayerController.dispose();
     super.dispose();
-  }
-
-  void toggleFavorite(int movieId) async {
-    setState(() {
-      isFavorite = !isFavorite; // Cambia el estado a lo contrario
-    });
-
-    await detailsApi.addMovieToFavorites(
-        movieId, isFavorite); // Llama al método para agregar o eliminar
-    if (isFavorite) {
-      print('Película agregada a favoritos');
-    } else {
-      print('Película eliminada de favoritos');
-    }
   }
 
   Future<void> fetchTrailerUrlByName(String movieName) async {
@@ -155,24 +143,6 @@ class _DetailsMovieState extends State<DetailsMovie> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalles de la Película'),
-        actions: [
-          IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: isFavorite ? Colors.red : Colors.white,
-            ),
-            onPressed: () {
-              final movieId =
-                  widget.moviesDAO.idMovie; // Obtén el ID de la película
-              if (movieId != null) {
-                toggleFavorite(movieId); // Llama a la función para alternar favoritos
-              } else {
-                print(
-                    'No se encontró el ID de la película para agregar a favoritos');
-              }
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -232,6 +202,7 @@ class _DetailsMovieState extends State<DetailsMovie> {
                     else
                       CircularProgressIndicator(),
                     SizedBox(height: 24),
+                    
                     Text(
                       '${widget.moviesDAO.nameMovie}',
                       style: TextStyle(
@@ -239,6 +210,26 @@ class _DetailsMovieState extends State<DetailsMovie> {
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    RatingBar.builder(
+                      initialRating: _rating,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 30.0,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      unratedColor: Colors.grey[300],
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        setState(() {
+                          _rating = rating;
+                        });
+                        print('Calificación: $_rating');
+                      },
                     ),
                     SizedBox(height: 8),
                     Text(

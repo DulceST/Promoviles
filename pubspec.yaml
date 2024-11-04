@@ -57,6 +57,7 @@ dependencies:
   youtube_player_flutter:
   video_player: 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
