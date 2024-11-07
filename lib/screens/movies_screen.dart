@@ -31,11 +31,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
    // eliminarTodo() ;
   }
 
-  
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

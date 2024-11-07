@@ -9,7 +9,8 @@ import 'package:quickalert/quickalert.dart';
 
 // ignore: must_be_immutable
 class MovieViewFirebase extends StatefulWidget {
-  MovieViewFirebase({super.key, this.moviesDAO});
+  String? Uid;
+  MovieViewFirebase({Key? key,this.moviesDAO,this.Uid}):super(key: key);
 
   MoviesDAO? moviesDAO;
 
@@ -110,15 +111,14 @@ class _MovieViewState extends State<MovieViewFirebase> {
                   showConfirmBtn: false);
             }
           });
-        } /*else {
-          moviesDatabase!.UPDATE(
+        } else {
+          moviesDatabase!.update(
             {
-              "idMovie": widget.moviesDAO!.idMovie,
               'nameMovie': conName.text,
               'overview': conOverview.text,
               'imgMovie': conImgMovie.text,
               'releaseDate': conRelease.text
-            },
+            }, '${widget.Uid}'
           ).then((value) {
             final String msj;
             QuickAlertType type = QuickAlertType.success;
@@ -138,7 +138,7 @@ class _MovieViewState extends State<MovieViewFirebase> {
               showConfirmBtn: false,
             );
           });
-        }*/
+        }
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue[200],

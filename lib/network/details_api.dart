@@ -31,52 +31,26 @@ class DetailsApi {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return data['results']?.firstWhere((video) => video['type'] == 'Trailer', orElse: () => null);
+      return data['results']?.firstWhere((video) => video['type'] == 'Trailer',
+          orElse: () => null);
     } else {
       print('Error al obtener el tráiler: ${response.statusCode}');
       return null;
     }
   }
 
-//Obtener actores 
+//Obtener actores
   Future<List<dynamic>?> getMovieCast(int movieId) async {
-  final url = Uri.parse(
-      'https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$apiKey&language=en-US');
-  final response = await http.get(url);
+    final url = Uri.parse(
+        'https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$apiKey&language=en-US');
+    final response = await http.get(url);
 
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    return data['cast']; // Devuelve la lista de actores
-  } else {
-    print('Error al obtener los actores: ${response.statusCode}');
-    return null;
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data['cast']; // Devuelve la lista de actores
+    } else {
+      print('Error al obtener los actores: ${response.statusCode}');
+      return null;
+    }
   }
 }
-
-//Agregar pelicula a favoritos
-Future<void> addMovieToFavorites(int movieId, bool isFavorite) async {
-  final url = Uri.parse('https://api.themoviedb.org/3/account/{account_id}/favorite?api_key=$apiKey');
-  
-  final response = await http.post(
-    url,
-    headers: {'Content-Type': 'application/json'},
-    body: json.encode({
-      'media_type': 'movie',
-      'media_id': movieId,
-      'favorite': isFavorite, // true para agregar, false para eliminar
-    }),
-  );
-
-  if (response.statusCode == 200) {
-    print(isFavorite ? 'Película agregada a favoritos' : 'Película eliminada de favoritos');
-  } else {
-    print('Error al agregar/eliminar de favoritos: ${response.statusCode}');
-  }
-}
-
-
-
-
-
-}
-

@@ -9,7 +9,6 @@ import 'package:quickalert/quickalert.dart';
 // ignore: must_be_immutable
 class MovieView extends StatefulWidget {
   MovieView({super.key, this.moviesDAO});
-
   MoviesDAO? moviesDAO;
 
   @override

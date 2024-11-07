@@ -20,8 +20,13 @@ class DatabaseMovieFirebases {
 }
 
 
-  Future<void> UPDATE(Map<String, dynamic> movies, String id) async {
-    return collectionReference!.doc(id).update(movies);
+  Future<bool>update(Map<String,dynamic> movies, String id) async {
+    try {
+      await collectionReference!.doc(id).update(movies);//apunta al objeto CollectionReference? collectionReference
+    } catch (e) {
+      print('error $e');
+    }
+    return false;
   }
 
   Future<void> DELETE(String UId) async {

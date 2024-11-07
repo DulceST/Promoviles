@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pms2024/database/movies_database.dart';
 import 'package:pms2024/models/moviesDAO.dart';
 import 'package:pms2024/setting/global_values.dart';
-import 'package:pms2024/views/movie_view.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -11,11 +10,12 @@ import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 class MovieViewItemFirebase extends StatefulWidget {
   MovieViewItemFirebase(
       {super.key,
-      required this.moviesDAO,
+      required this.moviesDAO,required this.Uid
       });
 
   MoviesDAO moviesDAO;
-  
+  final Uid;
+
   @override
   State<MovieViewItemFirebase> createState() => _MovieViewItemState();
 }
@@ -58,9 +58,10 @@ class _MovieViewItemState extends State<MovieViewItemFirebase> {
                       context: context, 
                       pageListBuilder: (context) => [
                         WoltModalSheetPage(
-                          child: MovieView(moviesDAO: widget.moviesDAO,)
-                        )
-                      ]
+                          child:MovieViewItemFirebase(
+                            moviesDAO: widget.moviesDAO, Uid: widget.Uid,),
+                        ),
+                      ],
                     );
                   },
                   icon: Icon(Icons.edit)),
