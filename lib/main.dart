@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pms2024/provider/test_provider.dart';
 import 'package:pms2024/screens/customize_theme_screen.dart';
 import 'package:pms2024/screens/detail_popular_screen.dart';
+import 'package:pms2024/screens/favorite_movies_screen.dart';
 import 'package:pms2024/screens/home_content_screen.dart';
 import 'package:pms2024/screens/home_screen.dart';
 import 'package:pms2024/screens/movies_screen.dart';
@@ -11,6 +13,7 @@ import 'package:pms2024/screens/popular_screen.dart';
 import 'package:pms2024/screens/profile_screen.dart';
 import 'package:pms2024/screens/login_screen.dart';
 import 'package:pms2024/setting/global_values.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pms2024/screens/home.dart';
 
@@ -38,25 +41,21 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.onboardingSeen});
 
 //El método build se llama cada vez que se necesita construir la interfaz
-  @override
+   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TestProvider()),
+        // otros providers si los necesitas
+      ],
+      child: ValueListenableBuilder(
         valueListenable: GlobalValues.selectedTheme,
-        // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
         builder: (context, value, Widget) {
-          //es el widget principal de la aplicación que proporciona el diseño y la funcionalidad de Material Design
           return MaterialApp(
-            title: 'Material App', //Establece el título de la aplicación.
-            debugShowCheckedModeBanner:
-                false, // Desactiva la etiqueta de depuración que aparece en la esquina superior derecha
-            home://onboardingSeen
-            const LoginScreen(),
-            //Configura el tema de la aplicacion
+            title: 'Material App',
+            debugShowCheckedModeBanner: false,
+            home: const LoginScreen(),
             theme: value,
-            /*? ThemeSettings.darkTheme() //Si es true muestra el tema oscuro
-                : ThemeSettings
-                    .lightTheme(),*/ //si es false muestra el tema claro
-            //rutas para navegar
             routes: {
               "/home": (context) => const HomeScreen(),
               "/profile": (context) => const ProfileScreen(),
@@ -69,9 +68,11 @@ class MyApp extends StatelessWidget {
               "/popular": (context) => PopularScreen(),
               "/detailPopular": (context) => DetailPopularScreen(),
               "/moviesScreenfirebase": (context) => MoviesScreenFirebase(),
-            
+              "/favorites": (context) => FavoriteMoviesScreen()
             },
           );
-        });
+        },
+      ),
+    );
   }
 }

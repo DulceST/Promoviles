@@ -22,6 +22,17 @@ class _PopularScreenState extends State<PopularScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Popular movies list'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.pushNamed(context, '/favorites');
+            },
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: popularApi!.getPopularMovies(),
         builder: (context, AsyncSnapshot<List<PopularMovieDao>> snapshot) {
@@ -55,7 +66,7 @@ class _PopularScreenState extends State<PopularScreen> {
 
   Widget cardPopular(PopularMovieDao popular) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/detail', arguments: popular),
+      onTap: () => Navigator.pushNamed(context, '/detailPopular', arguments: popular),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(

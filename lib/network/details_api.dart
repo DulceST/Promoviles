@@ -53,4 +53,6 @@ class DetailsApi {
       return null;
     }
   }
+  
+
 }
